@@ -3,7 +3,7 @@
       ARDUINO SENSOR AND 433MHZ SWITCH TRANSMITTER SKETCH
                    VERION 0.2 - 6-7 OCT. 2013
                   AUTHOR MICHIEL VAN DER VELDE
-                  
+
 -------------------------------------------------------------*/
 
 // ------------------------
@@ -65,18 +65,18 @@ int lastLDRValue = 0;
 
 void setup() {
   Serial.begin(9600);
-  
+
   // Setup sensors
-  attachInterrupt(1, flipSoundHeard, RISING); 
+  attachInterrupt(1, flipSoundHeard, RISING);
   dht.begin();
-  
+
   // Setup switch
   mySwitch.enableTransmit(10);
   //Serial.println("DEVID 1001");
-  
+
   // Setup IR
   irrecv.enableIRIn();
-  
+
   // ---------------------------------
 }
 
@@ -87,32 +87,32 @@ void loop() {
     float newTemperature = dht.readTemperature();
     float newHumidity = dht.readHumidity();
     int newLDRValue = analogRead(LDR_Pin);
-    
-    if(!isnan(newTemperature) && !isnan(newHumidity)) {
-        if(lastTemperature != newTemperature) {
-          Serial.print("TMP ");
-          Serial.print(newTemperature);
-          Serial.print(" ");
-          lastTemperature = newTemperature;
-        }
-        if(lastHumidity != newHumidity) {
-          Serial.print("HUM ");
-          Serial.print(newHumidity);
-          Serial.print(" ");
-          lastHumidity = newHumidity;
-        }
+
+		if(!isnan(newTemperature) && lastTemperature != newTemperature) {
+      Serial.print("TMP ");
+      Serial.print(newTemperature);
+      Serial.print(" ");
+      lastTemperature = newTemperature;
+		}
+
+		if(!isnan(newHumidity) && lastHumidity != newHumidity) {
+      Serial.print("HUM ");
+      Serial.print(newHumidity);
+      Serial.print(" ");
+      lastHumidity = newHumidity;
     }
+
     Serial.print("LDR ");
     Serial.println(newLDRValue);
-    
+
     lastEnvCheckMs = millis();
   }
-  
+
   if(soundHeard) {
     soundHeard = false;
     Serial.println("SND 1");
   }
-  
+
   // IR
   if (irrecv.decode(&results)) {
     byte send_ir = results.value;
@@ -124,7 +124,7 @@ void loop() {
     Serial.println(send_ir, HEX);
     irrecv.resume();
   }
-  
+
   // Run switch
   processSerialForSwitch();
   if(newCmd) {
