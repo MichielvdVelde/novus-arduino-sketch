@@ -88,14 +88,14 @@ void loop() {
     float newHumidity = dht.readHumidity();
     int newLDRValue = analogRead(LDR_Pin);
 
-		if(!isnan(newTemperature) && lastTemperature != newTemperature) {
+    if(!isnan(newTemperature) && lastTemperature != newTemperature) {
       Serial.print("TMP ");
       Serial.print(newTemperature);
       Serial.print(" ");
       lastTemperature = newTemperature;
 		}
 
-		if(!isnan(newHumidity) && lastHumidity != newHumidity) {
+    if(!isnan(newHumidity) && lastHumidity != newHumidity) {
       Serial.print("HUM ");
       Serial.print(newHumidity);
       Serial.print(" ");
