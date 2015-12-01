@@ -93,7 +93,7 @@ void loop() {
       Serial.print(newTemperature);
       Serial.print(" ");
       lastTemperature = newTemperature;
-		}
+    }
 
     if(!isnan(newHumidity) && lastHumidity != newHumidity) {
       Serial.print("HUM ");
